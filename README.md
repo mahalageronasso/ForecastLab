@@ -1,4 +1,4 @@
-# ForecastLab — RDM 2301
+# ForecastLab — RDM 2301 & MHM 7223
 
 Interactive demand-forecasting teaching tool for Revenue & Pricing Management.
 Jumeirah Beach Hotel Dubai (599 rooms) · Dr. Mahala Geronasso · ADHA – Les Roches
