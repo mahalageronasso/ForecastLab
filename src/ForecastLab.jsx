@@ -5,7 +5,7 @@ import {
 } from "recharts";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// REAL DATA — Jumeirah Beach Hotel Dubai (599 rooms), from RDM 2301 project
+// REAL DATA — Jumeirah Beach Hotel Dubai (599 rooms), from RDM 2301 & MHM 7223 project
 // ─────────────────────────────────────────────────────────────────────────────
 const ROOMS = 599;
 const DAYS = { Jan: 31, Feb: 28, Mar: 31, Apr: 30, May: 31, Jun: 30, Jul: 31, Aug: 31, Sep: 30, Oct: 31, Nov: 30, Dec: 31 };
@@ -147,7 +147,7 @@ const CRITERIA = [
   { name: "Scenario Planning", pts: 15 },
   { name: "Strategic Recommendations", pts: 15 },
 ];
-const INSTRUCTOR_PASSWORD = "rdm2301"; // change before sharing with students
+const INSTRUCTOR_PASSWORD = "REVENUE2026"; // change before sharing with students
 
 // Submission codec: JSON → URI-escaped → base64, wrapped with a checksum + marker.
 function encodeSubmission(obj) {
