@@ -290,7 +290,7 @@ export default function ForecastLab() {
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "22px 28px" }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
             <div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2.5, color: C.gold, textTransform: "uppercase" }}>RDM 2301 · Revenue & Pricing Management</div>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2.5, color: C.gold, textTransform: "uppercase" }}>RDM 2301 & MHM 7223 · Revenue & Pricing Management</div>
               <h1 style={{ margin: "4px 0 2px", fontSize: 34, fontWeight: 800, letterSpacing: -0.5, lineHeight: 1 }}>
                 Forecast<span style={{ color: C.gold }}>Lab</span>
               </h1>
