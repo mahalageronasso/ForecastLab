@@ -5,7 +5,7 @@ import {
 } from "recharts";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// REAL DATA — Jumeirah Beach Hotel Dubai (599 rooms), from RDM 2301 & MHM 7223 project
+// REAL DATA — Jumeirah Beach Hotel Dubai (599 rooms), from RDM 2301 project
 // ─────────────────────────────────────────────────────────────────────────────
 const ROOMS = 599;
 const DAYS = { Jan: 31, Feb: 28, Mar: 31, Apr: 30, May: 31, Jun: 30, Jul: 31, Aug: 31, Sep: 30, Oct: 31, Nov: 30, Dec: 31 };
@@ -147,7 +147,7 @@ const CRITERIA = [
   { name: "Scenario Planning", pts: 15 },
   { name: "Strategic Recommendations", pts: 15 },
 ];
-const INSTRUCTOR_PASSWORD = "REVENUE2026"; // change before sharing with students
+const INSTRUCTOR_PASSWORD = "rdm2301"; // change before sharing with students
 
 // Submission codec: JSON → URI-escaped → base64, wrapped with a checksum + marker.
 function encodeSubmission(obj) {
@@ -158,12 +158,12 @@ function encodeSubmission(obj) {
   const tag = sum.toString(36).padStart(3, "0").toUpperCase();
   // chunk into readable groups of 5
   const body = b64.replace(/(.{5})/g, "$1 ").trim();
-  return `RDM2301-${tag}::${body}`;
+  return `FLAB-${tag}::${body}`;
 }
 function decodeSubmission(code) {
   try {
-    const m = code.trim().match(/^RDM2301-([0-9A-Z]{3})::([\s\S]+)$/);
-    if (!m) return { ok: false, err: "Not a valid RDM2301 code (missing header)." };
+    const m = code.trim().match(/^FLAB-([0-9A-Z]{3})::([\s\S]+)$/);
+    if (!m) return { ok: false, err: "Not a valid FLAB code (missing header)." };
     const tag = m[1];
     const b64 = m[2].replace(/\s+/g, "");
     let sum = 0;
@@ -290,7 +290,7 @@ export default function ForecastLab() {
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "22px 28px" }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
             <div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2.5, color: C.gold, textTransform: "uppercase" }}>RDM 2301 & MHM 7223 · Revenue & Pricing Management</div>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2.5, color: C.gold, textTransform: "uppercase" }}>RDM 2301 &amp; MHM 7223 · Revenue Management</div>
               <h1 style={{ margin: "4px 0 2px", fontSize: 34, fontWeight: 800, letterSpacing: -0.5, lineHeight: 1 }}>
                 Forecast<span style={{ color: C.gold }}>Lab</span>
               </h1>
@@ -426,8 +426,9 @@ function MethodTab({ title, badge, formula, desc, series, color, insight }) {
             <CartesianGrid strokeDasharray="2 4" stroke={C.line} vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 10.5, fill: C.muted, fontFamily: "DM Mono" }} interval={1} />
             <YAxis domain={[45, 95]} tick={{ fontSize: 11, fill: C.muted, fontFamily: "DM Mono" }} unit="%" />
-            <Tooltip contentStyle={{ background: C.ink, border: "none", borderRadius: 9, color: C.paper, fontFamily: "DM Mono", fontSize: 12 }}
-              labelStyle={{ color: C.gold }} formatter={(v) => (v == null ? "—" : v + "%")} />
+            <Tooltip contentStyle={{ background: "#fdfbf5", border: `2px solid ${C.gold}`, borderRadius: 9, fontFamily: "DM Mono", fontSize: 12, boxShadow: "0 4px 14px rgba(35,33,28,0.18)" }}
+              itemStyle={{ color: C.ink, fontWeight: 600 }} cursor={{ fill: "rgba(184,134,59,0.10)" }}
+              labelStyle={{ color: C.goldDk, fontWeight: 700, marginBottom: 3 }} formatter={(v) => (v == null ? "—" : v + "%")} />
             <Legend wrapperStyle={{ fontSize: 12.5, fontFamily: "Spectral" }} />
             <Line type="monotone" dataKey="Actual" stroke={C.ink} strokeWidth={2.4} dot={{ r: 2.5, fill: C.ink }} connectNulls />
             <Line type="monotone" dataKey="Forecast" stroke={color} strokeWidth={2.6} strokeDasharray="6 4" dot={{ r: 3, fill: color }} connectNulls />
@@ -478,8 +479,9 @@ function DataTab() {
             <CartesianGrid strokeDasharray="2 4" stroke={C.line} vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 10, fill: C.muted, fontFamily: "DM Mono" }} interval={1} />
             <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: C.muted, fontFamily: "DM Mono" }} unit="%" />
-            <Tooltip contentStyle={{ background: C.ink, border: "none", borderRadius: 9, color: C.paper, fontFamily: "DM Mono", fontSize: 12 }}
-              labelStyle={{ color: C.gold }} formatter={(v, n, p) => [`${v}%  ·  ${p.payload.season} season`, "Occupancy"]} />
+            <Tooltip contentStyle={{ background: "#fdfbf5", border: `2px solid ${C.gold}`, borderRadius: 9, fontFamily: "DM Mono", fontSize: 12, boxShadow: "0 4px 14px rgba(35,33,28,0.18)" }}
+              itemStyle={{ color: C.ink, fontWeight: 600 }} cursor={{ fill: "rgba(184,134,59,0.10)" }}
+              labelStyle={{ color: C.goldDk, fontWeight: 700, marginBottom: 3 }} formatter={(v, n, p) => [`${v}%  ·  ${p.payload.season} season`, "Occupancy"]} />
             <Bar dataKey="occ" radius={[3, 3, 0, 0]}>
               {chartData.map((d, i) => <Cell key={i} fill={SEASON_COLOR[d.season]} />)}
             </Bar>
@@ -493,11 +495,52 @@ function DataTab() {
           ))}
         </div>
       </div>
+
+      {/* exact values table */}
+      <div style={{ background: C.panel, border: `1px solid ${C.line}`, borderRadius: 14, padding: "18px 18px 14px", marginTop: 18 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12, flexWrap: "wrap", gap: 6 }}>
+          <div style={{ fontSize: 13, fontWeight: 600 }}>Exact monthly values</div>
+          <div style={{ fontSize: 11.5, color: C.muted, fontStyle: "italic" }}>Use these figures for your calculations</div>
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, minWidth: 560 }}>
+            <thead>
+              <tr style={{ background: C.ink, color: C.paper }}>
+                <th style={{ textAlign: "left", padding: "9px 12px", fontWeight: 600 }}>Month</th>
+                <th style={{ textAlign: "center", padding: "9px 12px", fontWeight: 600 }}>Season</th>
+                <th style={{ textAlign: "right", padding: "9px 12px", fontWeight: 600 }}>Occupancy</th>
+                <th style={{ textAlign: "right", padding: "9px 12px", fontWeight: 600 }}>ADR (AED)</th>
+                <th style={{ textAlign: "right", padding: "9px 12px", fontWeight: 600 }}>RevPAR (AED)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {RAW.map((d, i) => {
+                const season = SEASON(d.m);
+                const yearBreak = i === 12;
+                return (
+                  <tr key={i} style={{ background: i % 2 ? "#faf6ec" : "transparent", borderTop: yearBreak ? `2px solid ${C.gold}` : `1px solid ${C.line}` }}>
+                    <td style={{ padding: "8px 12px", fontFamily: "'DM Mono', monospace", fontSize: 12.5 }}>{d.label}</td>
+                    <td style={{ padding: "8px 12px", textAlign: "center" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11.5, color: C.muted }}>
+                        <span style={{ width: 9, height: 9, borderRadius: 2, background: SEASON_COLOR[season], display: "inline-block" }} />{season}
+                      </span>
+                    </td>
+                    <td style={{ padding: "8px 12px", textAlign: "right", fontFamily: "'DM Mono', monospace", fontWeight: 700, color: C.goldDk }}>{(d.occ * 100).toFixed(1)}%</td>
+                    <td style={{ padding: "8px 12px", textAlign: "right", fontFamily: "'DM Mono', monospace" }}>{d.adr.toLocaleString()}</td>
+                    <td style={{ padding: "8px 12px", textAlign: "right", fontFamily: "'DM Mono', monospace", color: C.muted }}>{Math.round(d.revpar).toLocaleString()}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ fontSize: 11, color: C.muted, marginTop: 10, fontStyle: "italic" }}>
+          Occupancy is the headline series for forecasting. RevPAR = Occupancy × ADR.
+        </div>
+      </div>
     </div>
   );
 }
-
-// ── Accuracy tab ─────────────────────────────────────────────────────────────
 function AccuracyTab({ metricRows, best, allMethods, testStart, testEnd }) {
   const fmtN = (x) => (x == null ? "—" : x.toFixed(4));
   const cols = ["ME", "MAE", "MAPE", "MSE", "RMSE"];
@@ -571,8 +614,9 @@ function AccuracyTab({ metricRows, best, allMethods, testStart, testEnd }) {
             <CartesianGrid strokeDasharray="2 4" stroke={C.line} vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 11, fill: C.muted, fontFamily: "DM Mono" }} />
             <YAxis domain={[50, 95]} tick={{ fontSize: 11, fill: C.muted, fontFamily: "DM Mono" }} unit="%" />
-            <Tooltip contentStyle={{ background: C.ink, border: "none", borderRadius: 9, color: C.paper, fontFamily: "DM Mono", fontSize: 12 }}
-              labelStyle={{ color: C.gold }} formatter={(v) => (v == null ? "—" : v + "%")} />
+            <Tooltip contentStyle={{ background: "#fdfbf5", border: `2px solid ${C.gold}`, borderRadius: 9, fontFamily: "DM Mono", fontSize: 12, boxShadow: "0 4px 14px rgba(35,33,28,0.18)" }}
+              itemStyle={{ color: C.ink, fontWeight: 600 }} cursor={{ fill: "rgba(184,134,59,0.10)" }}
+              labelStyle={{ color: C.goldDk, fontWeight: 700, marginBottom: 3 }} formatter={(v) => (v == null ? "—" : v + "%")} />
             <Legend wrapperStyle={{ fontSize: 12, fontFamily: "Spectral" }} />
             <Line type="monotone" dataKey="Actual" stroke={C.ink} strokeWidth={3} dot={{ r: 3.5, fill: C.ink }} connectNulls />
             {names.map((n, i) => (
@@ -796,7 +840,7 @@ function InstructorTab() {
 
       <div style={{ marginTop: 16, marginBottom: 18 }}>
         <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 5 }}>Paste a student's submission code</div>
-        <textarea value={raw} onChange={(e) => setRaw(e.target.value)} rows={3} placeholder="RDM2301-XXX::..."
+        <textarea value={raw} onChange={(e) => setRaw(e.target.value)} rows={3} placeholder="FLAB-XXX::..."
           style={{ ...inp, fontFamily: "'DM Mono', monospace", fontSize: 12 }} />
         <button onClick={decode} style={{ marginTop: 10, background: C.ink, color: C.paper, border: "none", borderRadius: 9, padding: "10px 20px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Spectral', serif" }}>
           Decode →
